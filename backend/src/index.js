@@ -46,12 +46,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`========================================`);
-  console.log(`🚀 EduManage Pro Backend Server Started!`);
-  console.log(`   Local Address: http://localhost:${PORT}`);
-  console.log(`   Health Check:  http://localhost:${PORT}/health`);
-  console.log(`========================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`========================================`);
+    console.log(`🚀 EduManage Pro Backend Server Started!`);
+    console.log(`   Local Address: http://localhost:${PORT}`);
+    console.log(`   Health Check:  http://localhost:${PORT}/health`);
+    console.log(`========================================`);
+  });
+}
 
 export default app;
