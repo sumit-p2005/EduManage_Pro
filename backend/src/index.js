@@ -22,12 +22,18 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve static uploads
-const uploadsPath = path.join(__dirname, '..', 'uploads');
-if (!fs.existsSync(uploadsPath)) {
-  fs.mkdirSync(uploadsPath, { recursive: true });
+// Serve static uploads (only in local development, skipped on Vercel to avoid read-only FS crash)
+if (!process.env.VERCEL) {
+  const uploadsPath = path.join(__dirname, '..', 'uploads');
+  try {
+    if (!fs.existsSync(uploadsPath)) {
+      fs.mkdirSync(uploadsPath, { recursive: true });
+    }
+    app.use('/uploads', express.static(uploadsPath));
+  } catch (err) {
+    console.warn('⚠️ Local uploads folder creation failed:', err.message);
+  }
 }
-app.use('/uploads', express.static(uploadsPath));
 
 // Routes
 app.use('/api', apiRouter);
