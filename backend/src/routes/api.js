@@ -28,8 +28,8 @@ router.post('/auth/forgot-password', authCtrl.forgotPassword);
 // --- STUDENT ROUTES (Admin Only) ---
 router.get('/students', authenticate, requireAdmin, studentCtrl.getStudents);
 router.get('/students/:id', authenticate, requireAdmin, studentCtrl.getStudentById);
-router.post('/students', authenticate, requireAdmin, studentCtrl.createStudent);
-router.put('/students/:id', authenticate, requireAdmin, studentCtrl.updateStudent);
+router.post('/students', authenticate, requireAdmin, upload.single('photo'), studentCtrl.createStudent);
+router.put('/students/:id', authenticate, requireAdmin, upload.single('photo'), studentCtrl.updateStudent);
 router.delete('/students/:id', authenticate, requireAdmin, studentCtrl.deleteStudent);
 
 // --- BATCH ROUTES ---

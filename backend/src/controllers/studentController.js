@@ -67,13 +67,21 @@ export const createStudent = async (req, res) => {
       name
     }, uid);
 
-    // 3. Calculate remaining fees
+    // 3. Upload student photo if provided, otherwise default to a dummy placeholder avatar
+    let photoUrl = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
+    if (req.file) {
+      photoUrl = await dbOps.uploadFile(req.file, `students/${uid}_${Date.now()}_${req.file.originalname}`);
+    } else if (photo) {
+      photoUrl = photo;
+    }
+
+    // 4. Calculate remaining fees
     const remaining = feeTotal - feePaid;
     let feeStatus = 'Pending';
     if (remaining <= 0) feeStatus = 'Paid';
     else if (feePaid > 0) feeStatus = 'Partially Paid';
 
-    // 4. Save in students collection
+    // 5. Save in students collection
     const studentData = {
       name,
       email,
@@ -84,7 +92,7 @@ export const createStudent = async (req, res) => {
       admissionDate: admissionDate || new Date().toISOString().split('T')[0],
       batchId,
       batchName: batch.name,
-      photo: photo || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', // placeholder
+      photo: photoUrl,
       feeDetails: {
         total: parseFloat(feeTotal),
         paid: parseFloat(feePaid),
@@ -143,7 +151,15 @@ export const updateStudent = async (req, res) => {
     if (parentName) updates.parentName = parentName;
     if (parentPhone) updates.parentPhone = parentPhone;
     if (address) updates.address = address;
-    if (photo) updates.photo = photo;
+
+    if (req.file) {
+      if (student.photo && !student.photo.includes('unsplash.com') && !student.photo.includes('wikimedia.org')) {
+        await dbOps.deleteFile(student.photo);
+      }
+      updates.photo = await dbOps.uploadFile(req.file, `students/${id}_${Date.now()}_${req.file.originalname}`);
+    } else if (photo) {
+      updates.photo = photo;
+    }
 
     if (batchId && batchId !== student.batchId) {
       // De-increment old batch count

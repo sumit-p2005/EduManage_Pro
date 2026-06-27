@@ -106,22 +106,30 @@ const StudentManagement = () => {
     try {
       const formData = new FormData();
       Object.keys(data).forEach(key => {
-        formData.append(key, data[key]);
+        if (data[key] !== undefined && data[key] !== null) {
+          formData.append(key, data[key]);
+        }
       });
       if (photoFile) {
         formData.append('photo', photoFile);
       }
 
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+
       if (editMode && selectedStudent) {
         // Edit student
-        const response = await api.put(`/students/${selectedStudent.id}`, data);
+        const response = await api.put(`/students/${selectedStudent.id}`, formData, config);
         if (response.data.success) {
           setIsFormOpen(false);
           fetchStudentsAndBatches();
         }
       } else {
         // Create student
-        const response = await api.post('/students', data);
+        const response = await api.post('/students', formData, config);
         if (response.data.success) {
           setIsFormOpen(false);
           fetchStudentsAndBatches();
@@ -227,7 +235,7 @@ const StudentManagement = () => {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <img 
-                        src={student.photo || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'} 
+                        src={student.photo || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} 
                         alt={student.name}
                         className="w-10 h-10 rounded-xl object-cover"
                       />
@@ -340,6 +348,34 @@ const StudentManagement = () => {
             {/* Form */}
             <form onSubmit={handleSubmit(handleFormSubmit)} className="p-6 space-y-4 max-h-[30rem] overflow-y-auto">
               
+              {/* Photo Upload Section */}
+              <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/60 rounded-xl">
+                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-200 dark:bg-slate-700 shrink-0">
+                  <img 
+                    src={
+                      photoFile 
+                        ? URL.createObjectURL(photoFile) 
+                        : (editMode && selectedStudent?.photo) 
+                          ? selectedStudent.photo 
+                          : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+                    } 
+                    alt="Student Preview" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wide block mb-1">
+                    Student Profile Photo
+                  </label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => setPhotoFile(e.target.files[0] || null)}
+                    className="text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary dark:file:bg-primary/20 dark:file:text-primary-light hover:file:bg-primary/20 transition-all cursor-pointer"
+                  />
+                </div>
+              </div>
+
               {/* Row 1: Student info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -507,7 +543,7 @@ const StudentManagement = () => {
               {/* Header profile details */}
               <div className="flex items-center gap-4">
                 <img 
-                  src={selectedStudent.photo || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                  src={selectedStudent.photo || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'} 
                   alt={selectedStudent.name}
                   className="w-16 h-16 rounded-2xl object-cover ring-4 ring-primary/10 shadow-sm"
                 />
