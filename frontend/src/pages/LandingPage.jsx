@@ -12,15 +12,12 @@ import {
   CheckCircle,
   Menu,
   X,
-  Star,
-  Quote
+  Star
 } from 'lucide-react';
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
 
   const features = [
     { title: 'Notes & Study Material', desc: 'Organize and distribute PDFs, PPTs, and Assignments by Subject, Chapter, and Topic.', icon: BookOpen, color: 'text-primary bg-primary/10' },
@@ -45,21 +42,7 @@ const LandingPage = () => {
     { name: 'Mrs. Anita Das', role: 'Parent of Kabir Das', quote: 'The transparency in fee collection reports and immediate WhatsApp follow-ups gives me immense peace of mind.', rating: 5 }
   ];
 
-  const toppers = [
-    { name: 'Pranav Mehta', score: '99.8 Percentile', exam: 'JEE Mains', quote: 'Organized notes and instant test solution sheets made all the difference.', photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150' },
-    { name: 'Riya Singhal', score: '685 / 720', exam: 'NEET UG', quote: 'Consistent chapter test updates simulated real test constraints beautifully.', photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150' }
-  ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (contactForm.name && contactForm.email && contactForm.message) {
-      setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setContactForm({ name: '', email: '', phone: '', message: '' });
-      }, 3000);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
@@ -80,7 +63,6 @@ const LandingPage = () => {
           <div className="hidden md:flex items-center gap-8 font-medium text-sm">
             <a href="#features" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary-light transition-colors">Features</a>
             <a href="#benefits" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary-light transition-colors">Why Us</a>
-            <a href="#toppers" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary-light transition-colors">Toppers</a>
             <a href="#testimonials" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary-light transition-colors">Testimonials</a>
             <a href="#pricing" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary-light transition-colors">Pricing</a>
             <a href="#contact" className="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary-light transition-colors">Contact</a>
@@ -106,7 +88,6 @@ const LandingPage = () => {
           <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-6 py-6 flex flex-col gap-4 animate-in slide-in-from-top-4 duration-200">
             <a href="#features" onClick={() => setMobileMenuOpen(false)} className="font-semibold text-slate-600 dark:text-slate-300">Features</a>
             <a href="#benefits" onClick={() => setMobileMenuOpen(false)} className="font-semibold text-slate-600 dark:text-slate-300">Why Us</a>
-            <a href="#toppers" onClick={() => setMobileMenuOpen(false)} className="font-semibold text-slate-600 dark:text-slate-300">Toppers</a>
             <a href="#testimonials" onClick={() => setMobileMenuOpen(false)} className="font-semibold text-slate-600 dark:text-slate-300">Testimonials</a>
             <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="font-semibold text-slate-600 dark:text-slate-300">Pricing</a>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="font-semibold text-slate-600 dark:text-slate-300">Contact</a>
@@ -150,7 +131,7 @@ const LandingPage = () => {
               onClick={() => navigate('/login')}
               className="flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-premium transform hover:-translate-y-0.5 transition-all duration-200 shadow-glow-primary"
             >
-              <span>Launch Demo Console</span>
+              <span>Launch Console</span>
               <ArrowRight size={18} />
             </button>
             <a 
@@ -239,39 +220,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Toppers Showcase */}
-      <section id="toppers" className="py-24 border-t border-slate-100 dark:border-slate-800/40 bg-slate-50/50 dark:bg-slate-900/50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-outfit font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">Hall of Fame</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-4">
-              Proud achievements from students who utilize our dashboard management tools.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {toppers.map((t, idx) => (
-              <div 
-                key={idx}
-                className="flex flex-col sm:flex-row gap-5 p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/40 shadow-soft"
-              >
-                <img src={t.photo} alt={t.name} className="w-16 h-16 rounded-xl object-cover ring-4 ring-primary/10 self-start sm:self-center" />
-                <div>
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <h3 className="font-bold text-slate-800 dark:text-white text-lg">{t.name}</h3>
-                    <span className="px-2.5 py-1 text-[11px] font-bold text-white bg-secondary rounded-lg uppercase">{t.exam}</span>
-                  </div>
-                  <p className="text-xs text-primary font-bold mt-1">{t.score}</p>
-                  <p className="text-sm italic text-slate-500 dark:text-slate-400 mt-3 relative">
-                    <Quote className="text-slate-200 dark:text-slate-700 absolute -left-2 -top-2 w-8 h-8 -z-10" />
-                    "{t.quote}"
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials */}
       <section id="testimonials" className="py-24">
@@ -311,7 +260,7 @@ const LandingPage = () => {
       <section id="pricing" className="py-24 border-t border-slate-100 dark:border-slate-800/40 bg-slate-50/50 dark:bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-outfit font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">Affordable Investment</h2>
+            <h2 className="font-outfit font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">1000 Rs Per Month</h2>
             <p className="text-slate-500 dark:text-slate-400 mt-4">
               Unlock access for your entire student enrollment list. No surprise add-ons.
             </p>
@@ -326,7 +275,7 @@ const LandingPage = () => {
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Unlimited storage & student database</p>
             
             <div className="flex items-baseline gap-2 mt-6">
-              <span className="text-4xl font-extrabold text-slate-950 dark:text-white">$49</span>
+              <span className="text-4xl font-extrabold text-slate-950 dark:text-white">₹1,000</span>
               <span className="text-sm text-slate-500 dark:text-slate-400">/ month</span>
             </div>
 
@@ -353,88 +302,21 @@ const LandingPage = () => {
 
       {/* Contact Section */}
       <section id="contact" className="py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            
-            {/* Left Info */}
-            <div>
-              <h2 className="font-outfit font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">Get in touch</h2>
-              <p className="text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">
-                Have questions about custom migrations or school-wide deployments? Leave a message below, and our tech support team will reach out.
-              </p>
-              
-              <div className="mt-8 space-y-6">
-                <div>
-                  <h4 className="font-bold text-slate-700 dark:text-slate-350 text-sm">Support Email</h4>
-                  <p className="text-sm text-primary dark:text-primary-light font-medium mt-1">support@edumanagepro.com</p>
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-700 dark:text-slate-350 text-sm">Business Inquiries</h4>
-                  <p className="text-sm text-primary dark:text-primary-light font-medium mt-1">sales@edumanagepro.com</p>
-                </div>
-              </div>
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="font-outfit font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">Get in touch</h2>
+          <p className="text-slate-500 dark:text-slate-400 mt-4 leading-relaxed max-w-xl mx-auto">
+            Have questions about custom migrations or school-wide deployments? Feel free to reach out to our team.
+          </p>
+          
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/40 shadow-soft hover:shadow-premium hover:-translate-y-0.5 transition-all duration-300">
+              <h4 className="font-bold text-slate-700 dark:text-slate-350 text-sm">Support Email</h4>
+              <p className="text-base text-primary dark:text-primary-light font-semibold mt-2">support@edumanagepro.com</p>
             </div>
-
-            {/* Right Form */}
-            <div className="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-premium">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Full Name</label>
-                  <input 
-                    type="text" 
-                    required
-                    value={contactForm.name}
-                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full px-4 py-3 mt-1 text-sm bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700/60 rounded-xl outline-none focus:border-primary transition-colors text-slate-800 dark:text-white"
-                  />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Email</label>
-                    <input 
-                      type="email" 
-                      required
-                      value={contactForm.email}
-                      onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                      className="w-full px-4 py-3 mt-1 text-sm bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700/60 rounded-xl outline-none focus:border-primary transition-colors text-slate-800 dark:text-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Phone Number</label>
-                    <input 
-                      type="tel"
-                      value={contactForm.phone}
-                      onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-                      className="w-full px-4 py-3 mt-1 text-sm bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700/60 rounded-xl outline-none focus:border-primary transition-colors text-slate-800 dark:text-white"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Message</label>
-                  <textarea 
-                    rows={4}
-                    required
-                    value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    className="w-full px-4 py-3 mt-1 text-sm bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700/60 rounded-xl outline-none focus:border-primary transition-colors text-slate-800 dark:text-white"
-                  />
-                </div>
-                
-                {submitted ? (
-                  <div className="p-3 text-center rounded-xl bg-success/15 text-success font-semibold text-xs animate-in fade-in">
-                    Thank you! Your message was received successfully.
-                  </div>
-                ) : (
-                  <button 
-                    type="submit" 
-                    className="w-full py-3.5 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl shadow-glow-primary hover:shadow-premium hover:-translate-y-0.5 transition-all duration-200"
-                  >
-                    Submit Form
-                  </button>
-                )}
-              </form>
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/40 shadow-soft hover:shadow-premium hover:-translate-y-0.5 transition-all duration-300">
+              <h4 className="font-bold text-slate-700 dark:text-slate-350 text-sm">Business Inquiries</h4>
+              <p className="text-base text-primary dark:text-primary-light font-semibold mt-2">sales@edumanagepro.com</p>
             </div>
-
           </div>
         </div>
       </section>
